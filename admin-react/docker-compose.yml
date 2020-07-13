@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  sample:
+    container_name: with-admin-ract
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=development
+    tty: true  

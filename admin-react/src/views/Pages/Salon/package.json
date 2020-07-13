@@ -1,0 +1,6 @@
+{
+  "name": "Salon",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Salon.js"
+}
