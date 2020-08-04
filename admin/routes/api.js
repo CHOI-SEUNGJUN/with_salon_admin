@@ -10,5 +10,4 @@ router.use('/auth', authRouter);
 router.use('/salon', salonRouter);
 router.use('/contents', contentsRouter);
 
-
 module.exports = router;

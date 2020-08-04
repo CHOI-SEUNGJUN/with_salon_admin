@@ -70,10 +70,7 @@ function Salon() {
     let { name, value } = event.target;
     let newSalon = salon;
     await setSalon({ ...newSalon, [name]: value });
-
   };
-
-
 
   return (
     <div className="animated fadeIn">
