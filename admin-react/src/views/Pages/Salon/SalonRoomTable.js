@@ -15,8 +15,10 @@ const BaseURL = conn.BaseURL;
 
 let dataBase;
 let getFirebase;
+let resetPageNumber;
 
 const GetSalonListEndPoint = BaseURL + "api/v1/salon/";
+const resetSalonPasswordEndPoint = BaseURL + "api/v1/salon/";
 
 const Styles = styled.div`
 table {
@@ -61,7 +63,6 @@ table {
   }
 }
 `
-
 
 function Table( {columns, data} ) {
   let {
@@ -170,15 +171,13 @@ function SalonRoomTable(props) {
           id: newIdv.id,
           v: newIdv.v
         })
-
-        
         return value
       } else {
         return ""
       }
-      
     });
   }
+  
 
   const [listItems, setListItems] = useState([]);
   const [isUpdated, setIsUpdated] = useState(0);
@@ -193,11 +192,7 @@ function SalonRoomTable(props) {
       newListItems[idv.id].curPage = idv.v;
       setListItems(newListItems);
     }
-
-    
-    
   }, [idv])
-
 
   const fetchSalonList = async () => {
     const callApi = async () => {
@@ -210,7 +205,6 @@ function SalonRoomTable(props) {
       console.log("data:", salonList.data)
       return { salonList };
     };
-
 
     callApi()
       .then(async (res) => {
@@ -246,8 +240,6 @@ function SalonRoomTable(props) {
     function replaceAll(str, searchStr, replaceStr) {
       return str.split(searchStr).join(replaceStr);
     }
-    
-  
     const event = new Date();
   
     const options = { year: 'numeric', month: '2-digit', day: '2-digit'};
@@ -258,7 +250,6 @@ function SalonRoomTable(props) {
     exValue = replaceAll(exValue, " ", "")
     exValue = exValue.substring(0, exValue.lastIndexOf("-"))
     
-  
     console.log(exValue);
 
     let a = Array()
@@ -275,10 +266,27 @@ function SalonRoomTable(props) {
     } else {
       alert("오늘 살롱 없음")
     }
-  }
+  };
 
+  const resetPageNumber = () => {
+    listItems.forEach((v, i) => {
+      // var updates = { curPage : 1 }
+      const a = dataBase.ref(`/room/${v.roomName}`).remove()
+    })
 
+    alert("페이지 번호 초기화 완료")
+  };
 
+  const resetPassword = () => {
+    let get_conf = {
+      headers: {
+        token: "2ndMVPsecretToken",
+      },
+    };
+
+    const result = axios.put(resetSalonPasswordEndPoint, get_conf);
+    alert("비밀번호 초기화 완료")
+  };
 
   useEffect(() => {
     firebase.initializeApp(FirebaseConfig);
@@ -292,6 +300,8 @@ function SalonRoomTable(props) {
     <strong><b style={{margin: 10}}>사랑=1, 인간관계=2, 인생=3, 행복=4</b></strong>
     <br/><Button onClick={() => todaySearch()} color="primary" style={{margin: 10}}>오늘 진행되는 살롱 보기</Button>
     <Button onClick={() => fetchSalonList()} color="primary" style={{margin: 10}}>전체 살롱 보기</Button>
+    <Button onClick={() => resetPageNumber()} color="primary" style={{margin: 10}}>페이지 초기화 하기</Button>
+    <Button onClick={() => resetPassword()} color="primary" style={{margin: 10}}>비밀번호 초기화 하기</Button>
       <Styles>
         <Table columns={columns} data={listItems} />
       </Styles>
