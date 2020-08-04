@@ -6,7 +6,6 @@ let db = config.database;
 /*  
  *  Create a new Salon
  *  check if a salon already exists or not.
- *  
  */
 const createNewSalon = (req, res) => {
   let salon = {
@@ -39,7 +38,6 @@ const createNewSalon = (req, res) => {
  */
 const getSalonList = (req, res) => {
   const p = async () => {
-
     let sql = "SELECT * FROM `" + db + "`.`room`;"
     let salons = await utils.sqlQueryPromise(sql);
     res.status(200).json({
@@ -51,7 +49,25 @@ const getSalonList = (req, res) => {
   return p();
 }
 
+const resetSalonPassword = (req, res) => {
+  defaultPassword = "200316";
+  
+  const p = async () => {
+    let sql = "UPDATE room SET password = " + defaultPassword + ";";
+    console.log(sql);
+
+    let result = await utils.sqlQueryPromise(sql);
+    res.status(200).json({
+      "message": "reset salon password",
+      "data": result,
+    })
+  }
+
+  return p();
+}
+
 module.exports = {
   createNewSalon,
   getSalonList,
+  resetSalonPassword
 }

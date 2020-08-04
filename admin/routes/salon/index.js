@@ -5,6 +5,6 @@ const controller = require('./salon.controller')
 
 router.get('/', controller.getSalonList);
 router.post('/', controller.createNewSalon);
-// router.put('/:salonId', salon.updateSalon);
+router.put('/', controller.resetSalonPassword);
 
 module.exports = router;
