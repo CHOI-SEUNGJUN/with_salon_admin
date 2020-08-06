@@ -50,7 +50,7 @@ const getSalonList = (req, res) => {
 }
 
 const resetSalonPassword = (req, res) => {
-  defaultPassword = "200316";
+  defaultPassword = "200326";
   
   const p = async () => {
     let sql = "UPDATE room SET password = " + defaultPassword + ";";
